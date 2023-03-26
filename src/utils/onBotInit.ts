@@ -2,6 +2,7 @@ import TelegramBot from "node-telegram-bot-api";
 import storage from "node-persist";
 import { scheduleJob } from "node-schedule";
 import { dateTimeToCron } from "./dateTimeToCron";
+import { sendReminderJob } from "./sendReminderJob";
 
 export async function startBot(bot: TelegramBot) {
   console.log("Bot started");
@@ -19,9 +20,11 @@ export async function startBot(bot: TelegramBot) {
     }
 
     const key = `reminder_${chatId}_${id}`;
-    scheduleJob(cron, () => {
-      bot.sendMessage(chatId, `Lembrete: ${text}`);
-      if (!repeat) storage.removeItem(key);
-    });
+
+    scheduleJob(
+      cron,
+      key,
+      sendReminderJob(bot, text, chatId, time, key, repeat, id)
+    );
   });
 }

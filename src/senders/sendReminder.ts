@@ -5,6 +5,7 @@ import scheduler from "node-schedule";
 import { dateTimeToCron } from "../utils/dateTimeToCron";
 import storage from "node-persist";
 import { nanoId } from "../utils/nanoId";
+import { sendReminderJob } from "../utils/sendReminderJob";
 
 interface IReminder {
   chatId: number;
@@ -181,20 +182,30 @@ class SenderReminder {
           const cron = repeat ? dateTimeToCron(reminderDate) : reminderDate;
 
           const id = nanoId(8);
+          const text = reminder.text || "";
 
           const key = `reminder_${chatId}_${id}`;
           const reminderObjs = {
             chatId,
-            text: reminder.text,
+            text: text,
             time: reminderDate,
             repeat: repeat,
             id: id,
           };
 
-          scheduler.scheduleJob(key, cron, () => {
-            this.bot.sendMessage(chatId, `Lembrete: ${reminder.text || ""}`);
-            if (!reminder.repeat) storage.removeItem(key);
-          });
+          scheduler.scheduleJob(
+            key,
+            cron,
+            sendReminderJob(
+              this.bot,
+              text,
+              chatId,
+              reminderDate,
+              key,
+              repeat,
+              id
+            )
+          );
 
           await storage.setItem(key, reminderObjs);
 
