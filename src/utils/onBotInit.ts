@@ -22,8 +22,8 @@ export async function startBot(bot: TelegramBot) {
     const key = `reminder_${chatId}_${id}`;
 
     scheduleJob(
-      cron,
       key,
+      cron,
       sendReminderJob(bot, text, chatId, time, key, repeat, id)
     );
   });
