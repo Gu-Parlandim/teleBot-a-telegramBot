@@ -151,7 +151,7 @@ class SenderReminder {
         case 2:
           const response = await translateToEnglish(msg.text || "");
 
-          console.log(response);
+          // console.log(response);
 
           if (response === "error") {
             this.bot.sendMessage(chatId, "Não entendi, tente novamente");
