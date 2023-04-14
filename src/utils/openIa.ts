@@ -1,4 +1,4 @@
-import { OpenAIApi, Configuration } from "openai";
+/* import { OpenAIApi, Configuration } from "openai";
 import "dotenv/config";
 const organization = process.env.OPENAI_ORGANIZATION as string;
 const apiKey = process.env.OPENAI_API_KEY as string;
@@ -30,3 +30,4 @@ export const getDavinciResponse = async (clientText: string) => {
     return `error`;
   }
 };
+ */

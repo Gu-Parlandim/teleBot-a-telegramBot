@@ -1,11 +1,11 @@
 import TelegramBot, { SendMessageOptions } from "node-telegram-bot-api";
 import * as chrono from "chrono-node";
-import { getDavinciResponse } from "../utils/openIa";
 import scheduler from "node-schedule";
 import { dateTimeToCron } from "../utils/dateTimeToCron";
 import storage from "node-persist";
 import { nanoId } from "../utils/nanoId";
 import { sendReminderJob } from "../utils/sendReminderJob";
+import { translateToEnglish } from "../utils/translateToEnglish";
 
 interface IReminder {
   chatId: number;
@@ -149,9 +149,9 @@ class SenderReminder {
           break;
 
         case 2:
-          const response = await getDavinciResponse(
-            msg.text || "no proximo minuto"
-          );
+          const response = await translateToEnglish(msg.text || "");
+
+          console.log(response);
 
           if (response === "error") {
             this.bot.sendMessage(chatId, "Não entendi, tente novamente");

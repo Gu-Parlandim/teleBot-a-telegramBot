@@ -10,6 +10,7 @@ import ProcessAnyMessage from "./senders/onAnyMessage";
 import UpdateListOFCommands from "./senders/updateListOfCommands";
 import SenderReminder from "./senders/sendReminder";
 import { startBot } from "./utils/onBotInit";
+import { translateToEnglish } from "./utils/translateToEnglish";
 dotenv.config();
 
 // Replace the value below with the Telegram token you receive from @BotFather
